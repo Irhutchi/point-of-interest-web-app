@@ -1,0 +1,26 @@
+{
+  "name": "poi-webapp",
+  "version": "1.0.0",
+  "description": "nodejs web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ian Hutchinson",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^20.1.0",
+    "@hapi/inert": "^6.0.3"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
+  },
+  "prettier": {
+    "printWidth": 120
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://Irhutchi@bitbucket.org/Irhutchi/pointsofinterest-webapp.git"
+  },
+  "homepage": "https://bitbucket.org/Irhutchi/pointsofinterest-webapp#readme"
+}
