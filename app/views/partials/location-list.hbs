@@ -5,15 +5,17 @@
       </caption>
       <thead>
          <th>Point of Interest</th>
+         <th>Description</th>
          <th>Location</th>
          <th>Name</th>
       </thead>
       <tbody class="uk-text-left">
-         {{#each pois}}
+         {{#each castles}}
             <tr>
                <td>{{poi}}</td>
+               <td>{{description}}</td>
                <td>{{location}}</td>
-               <td>{{ member.firstName }} {{member.lastName}}</td>
+               <td>{{ firstName }} {{lastName }}</td>
             </tr>
          {{/each}}
       </tbody>

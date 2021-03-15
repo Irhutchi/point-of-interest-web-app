@@ -1,5 +1,5 @@
 .idea
-
+.env
 
 # Node artifact files
 node_modules
