@@ -1,8 +1,9 @@
 'use strict';
 
-//import the model
+
 const User = require('../models/user');
-const Boom = require("@hapi/boom");
+const Boom = require("@hapi/boom"); //import boom module
+const Joi = require('@hapi/joi');  //import joi module
 
 const Accounts = {
   
@@ -27,6 +28,27 @@ const Accounts = {
   
   signup: {
     auth: false,
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      },
+      // report all errors by including options property
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("signup", {
+            title: "Sign up error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function(request, h) {
       try {
         const payload = request.payload;
@@ -60,6 +82,24 @@ const Accounts = {
   //only let user in if previously signed up
   login: {
     auth: false,
+    validate: {
+      payload: {
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("login", {
+            title: "Login error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function(request, h) {
       const { email, password } = request.payload;
       try {
@@ -90,16 +130,40 @@ const Accounts = {
   },
   
   updateSettings: {
+    validate: {
+      payload: {
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().required(),
+      },
+      options: {
+        abortEarly: false,
+      },
+      failAction: function (request, h, error) {
+        return h
+          .view("settings", {
+            title: "Settings error",
+            errors: error.details,
+          })
+          .takeover()
+          .code(400);
+      },
+    },
     handler: async function(request, h) {
-      const userEdit = request.payload;
-      const id = request.auth.credentials.id;
-      const user = await User.findById(id);
-      user.firstName = userEdit.firstName;
-      user.lastName = userEdit.lastName;
-      user.email = userEdit.email;
-      user.password = userEdit.password;
-      await user.save();
-      return h.redirect("/settings");
+      try {
+        const userEdit = request.payload;
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id);
+        user.firstName = userEdit.firstName;
+        user.lastName = userEdit.lastName;
+        user.email = userEdit.email;
+        user.password = userEdit.password;
+        await user.save();
+        return h.redirect("/settings");
+      } catch (err) {
+        return h.view("main", { errors: [{ message: err.message }] });
+      }
     }
   },
   

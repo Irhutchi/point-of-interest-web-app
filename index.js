@@ -2,6 +2,7 @@
 
 // import and register plugins //
 const env = require('dotenv');
+const Joi = require("@hapi/joi");
 const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
@@ -9,7 +10,12 @@ const Cookie = require("@hapi/cookie");
 const Handlebars = require('handlebars');
 require('./app/models/db');
 
-env.config();
+const result = env.config();
+if (result.error) {
+  console.log(result.error.message);
+  process.exit(1);
+}
+
 
 /* Server is the container for the hapi application.
    All other Hapi objects are created or used in the context of a server.
@@ -31,6 +37,7 @@ async function init() {
   await server.register(Inert);
   await server.register(Vision);
   await server.register(Cookie);
+  server.validator(require("@hapi/joi"));
   server.views({
     engines: {
       hbs: require('handlebars'), // initialise to use handlebars engine

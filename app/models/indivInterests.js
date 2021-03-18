@@ -7,9 +7,10 @@ const indivInterestsSchema = new Schema({
   poi: String,
   description: String,
   location: String,
-  firstName: String,
-  lastName: String
-  
+  member: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 module.exports = Mongoose.model("indivInterests", indivInterestsSchema);
