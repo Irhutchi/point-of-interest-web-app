@@ -11,6 +11,10 @@ const indivInterestsSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  category: {
+    type: Schema.Types.ObjectId,
+    ref: 'Category',
+  },
 });
 
-module.exports = Mongoose.model("indivInterests", indivInterestsSchema);
+module.exports = Mongoose.model("IndivInterests", indivInterestsSchema);
