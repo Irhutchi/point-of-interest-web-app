@@ -9,6 +9,7 @@
          <th>Description</th>
          <th>Location</th>
          <th>Name</th>
+         <th></th>
       </thead>
       <tbody class="uk-text-left">
          {{#each castles}}
@@ -18,6 +19,7 @@
                <td>{{description}}</td>
                <td>{{location}}</td>
                <td>{{ member.firstName }} {{ member.lastName }}</td>
+               <td><a href="/del-indivInterest/{{_id}}" title="Delete" class="fas fa-trash fa-1x" style="color:rgb(255,3,3)"></a></td>
             </tr>
          {{/each}}
       </tbody>

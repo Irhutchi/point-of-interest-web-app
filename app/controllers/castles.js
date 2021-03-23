@@ -53,6 +53,21 @@ const Castles = {
       }
     }
   },
+  // delete poi, save changes and refresh the report page.
+  removepoi: {
+    handler: async function (request, h) {
+      try {
+        const castles = IndivInterests.findById(request.params._id);
+        console.log("Deleting: " + castles);
+        await castles.remove();
+        return h.redirect("/report");
+      } catch
+        (err) {
+        return h.view('home', {errors: [{message: err.message}]});
+      }
+    },
+  },
+  
 };
 
 module.exports = Castles;
