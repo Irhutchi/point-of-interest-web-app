@@ -1,0 +1,23 @@
+<div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body">
+   <table class="uk-table uk-table-justify uk-table-divider">
+      <caption>
+         My Favourite locations
+      </caption>
+      <thead>
+         <th>Point of Interest</th>
+         <th>Description</th>
+         <th>Location</th>
+         <th>Name</th>
+      </thead>
+      <tbody class="uk-text-left">
+         {{#each castles}}
+            <tr>
+               <td>{{poi}}</td>
+               <td>{{description}}</td>
+               <td>{{location}}</td>
+               <td>{{ member.firstName }} {{ member.lastName }}</td>
+            </tr>
+         {{/each}}
+      </tbody>
+   </table>
+</div>
