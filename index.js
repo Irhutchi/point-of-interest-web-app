@@ -10,6 +10,7 @@ const Cookie = require("@hapi/cookie");
 const Handlebars = require('handlebars');
 require('./app/models/db');
 
+// The dotenv component loads the values in the `process.env` which is then accessed.
 const result = env.config();
 if (result.error) {
   console.log(result.error.message);
