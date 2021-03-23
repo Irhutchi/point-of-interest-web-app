@@ -10,8 +10,17 @@ and categories. It is particularly useful in establishing normalised data models
 Completed pairtial implemention of the core POI and some features from the enhanced.
 
 **npm install** <br>
-If you clone this repo you will need to open the project in an IDE and enter *run npm install* into the command line. Npm install will download required dependencies defined in a 
+If you clone this repo you will need to open the project in an IDE and enter *npm install* into the command line. Npm install will download required dependencies defined in a 
 package.json file and generates a node_modules folder with the installed modules.
+
+### Access the application
+* Use any of the two login details below
+
+Username           | Password
+-------------------| -------------
+homer@simpson.com  | secret
+bart@simpson.com  | secret
+
 
 ### Data Model
 
