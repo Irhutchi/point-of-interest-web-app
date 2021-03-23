@@ -1,0 +1,44 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    "bart": {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  },
+  "categories": {
+    "_model": "Category",
+    "north": {
+      "region": "north"
+    },
+    "east": {
+      "region": "east"
+    }
+  },
+  "indivInterests": {
+    "_model": "IndivInterests",
+    "one": {
+      "poi": "Antrim Castle",
+      "description": "Dates back to 1613. Aka Massereene Castle",
+      "location": "Antrim",
+      "member": "->users.homer",
+      "category": "->categories.north"
+    },
+    "two": {
+      "poi": "Dublin Castle",
+      "description": "Major Irish complex and tourist attraction",
+      "location": "Dame Street, Dublin",
+      "member": "->users.bart",
+      "category": "->categories.east"
+    }
+  }
+}
+

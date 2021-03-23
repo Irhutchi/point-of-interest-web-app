@@ -1,19 +1,24 @@
 "use strict";
 
-const indivInterests = require("../models/indivInterests");
+const IndivInterests = require("../models/indivInterests");
+const Category = require("../models/category");
 const User = require("../models/user");
 
 const Castles = {
   home: {
-    handler: function (request, h) {
-      return h.view("home", { title: "Add new POI" });
+    handler: async function (request, h) {
+      const categories = await Category.find().lean();
+      return h.view("home", {
+        title: "Add new POI",
+        categories: categories
+      });
     },
   },
   
-  //Record donation and donor when creating donation
+  //Record new poi and member when creating point of interest
   report: {
     handler: async function (request, h) {
-      const castles = await indivInterests.find().populate("member").lean();
+      const castles = await IndivInterests.find().populate("member").populate("category").lean();
       return h.view("report", {
         title: "Locations added to Date",
         castles: castles,
@@ -25,17 +30,23 @@ const Castles = {
     handler: async function (request, h) {
       try {
         const id = request.auth.credentials.id;
-        const user = await User.findById(id);
+        const user = await User.findById(id); // locate User object
         const data = request.payload;
-    
-        const newIndivInterests = new indivInterests(
+  
+        const rawCategory = request.payload.category;
+        const category = await Category.findOne({  // locate category object
+          region: rawCategory
+        });
+        // Create new point of interest & init with User and category Id's
+        const newIndivInterest = new IndivInterests(
           {
             poi: data.poi,
             description: data.description,
             location: data.location,
-            member: user._id
+            member: user._id,
+            category: category._id
           });
-        await newIndivInterests.save();
+        await newIndivInterest.save();  // save new individual interest
         return h.redirect("/report");
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });

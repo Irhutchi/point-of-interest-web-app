@@ -5,22 +5,21 @@
          Add New Point of Interest
       </legend>
 
-      <div class="uk-margin">
-         <p>Select Category</p>
-         <select class="uk-select">
-            <option>Option 01</option>
-            <option>Option 02</option>
-            <option>Option 03</option>
-            <option>Option 04</option>
+      <div class="uk-form-label">Select Category</div>
+      <div class="uk-form-controls">
+         <select name="category" class="uk-select">
+            {{#each categories}}
+               <option value={{region}}>{{region}}</option>
+            {{/each}}
          </select>
       </div>
 
       <div class="uk-margin">
-         <input class="uk-input" type="text" placeholder="Enter POI here" name="poi">
+         <input class="uk-input" type="text" placeholder="Enter castle name here" name="poi">
       </div>
 
       <div class="uk-margin">
-         <input class="uk-input" type="text" placeholder="POI Description" name="description">
+         <input class="uk-input" type="text" placeholder="Description" name="description">
       </div>
 
       <div class="uk-margin">

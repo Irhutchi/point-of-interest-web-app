@@ -1,9 +1,10 @@
 <div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body">
    <table class="uk-table uk-table-justify uk-table-divider">
       <caption>
-         My Favourite locations
+         List of locations added
       </caption>
       <thead>
+         <th>Category</th>
          <th>Point of Interest</th>
          <th>Description</th>
          <th>Location</th>
@@ -12,6 +13,7 @@
       <tbody class="uk-text-left">
          {{#each castles}}
             <tr>
+               <td>{{category.region}}</td>
                <td>{{poi}}</td>
                <td>{{description}}</td>
                <td>{{location}}</td>
