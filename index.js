@@ -21,8 +21,9 @@ if (result.error) {
    All other Hapi objects are created or used in the context of a server.
    Make connections from server to 'speak' to the outside world. */
 const server = Hapi.server({
-  port: 3000,
-  host: 'localhost',
+  port: process.env.PORT || 3000,
+  //port: 3000,
+  //host: 'localhost',
 });
 
 //before server launches 'bind' an array of users/donations to the server obj
