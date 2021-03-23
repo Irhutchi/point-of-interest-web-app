@@ -17,7 +17,7 @@ module.exports = [
   { method: "GET", path: "/home", config: Castles.home },
   { method: "POST", path: "/addLocation", config: Castles.addLocation },
   { method: "GET", path: "/report", config: Castles.report },
-  
+  { method: "GET", path: "/del-indivInterest/{_id}", config: Castles.removepoi },
   {
     method: "GET",
     path: "/{param*}",
