@@ -1,4 +1,4 @@
-<div class="uk-margin uk-width-2xlarge uk-margin-auto uk-card uk-card-default uk-card-body">
+<div class="uk-margin uk-width-3xlarge uk-margin-auto uk-card uk-card-default uk-card-body">
    <table class="uk-table uk-table-justify uk-table-divider">
       <caption>
          List of locations added
@@ -7,9 +7,12 @@
          <th>Category</th>
          <th>Point of Interest</th>
          <th>Description</th>
-         <th>Location</th>
+         <th>latitude</th>
+         <th>Longitude</th>
+         <!--<th>Location</th> -->
          <th>Name</th>
-         <th></th>
+         <th>Edit</th>
+         <th>Delete</th>
       </thead>
       <tbody class="uk-text-left">
          {{#each castles}}
@@ -17,8 +20,11 @@
                <td>{{category.region}}</td>
                <td>{{poi}}</td>
                <td>{{description}}</td>
-               <td>{{location}}</td>
+               <td>{{latitude}}</td>
+               <td>{{longitude}}</td>
+               <!--<td>{location}}</td> -->
                <td>{{ member.firstName }} {{ member.lastName }}</td>
+              <td> <a href="/updatePOI/{{_id}}"> <i class="far fa-edit"></i> </a></td> -->
                <td><a href="/del-indivInterest/{{_id}}" title="Delete" class="fas fa-trash fa-1x" style="color:rgb(255,3,3)"></a></td>
             </tr>
          {{/each}}
@@ -27,4 +33,44 @@
          </p>
       </tbody>
    </table>
+   <div>
+      <div class="uk-position-center">
+         <style>
+            #map { height:480px; }
+         </style>
+      </div>
+      <div id = "map"></div>
+      <script>
+         var map;
+         function initMap() {
+            // initialise the map container
+            map = L.map('map').setView([53.42365, -7.94249], 7);
+
+            //retrieve the open street map tile as base layer for map
+            var Toner_Tile = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+               minZoom: 0,
+               maxZoom: 20,
+            });
+            //set text popup over each location marker
+            const MarkerPopup = L.popup().setContent("I'm clicked");
+            markerIcon = L.icon( {
+               iconUrl: 'public/images/caslte-icon.png',
+               iconSize:     [50, 50], // size of the icon
+               iconAnchor:   [25, 25], // point of the icon which will correspond to marker's location
+               popupAnchor: [0, -45] // point from which the popup should open relative to the iconAnchor
+            });
+
+            // add each point of interest to the map based on lon, lat values
+            Toner_Tile.addTo(map);
+            {{#each castles}}
+               locationMarker = L.marker ([{{latitude}}, {{longitude}}], {
+                  icon: markerIcon
+               }).bindPopup(MarkerPopup).addTo(map);
+            {{/each}}
+         }
+         initMap();
+
+      </script>
+   </div>
 </div>
