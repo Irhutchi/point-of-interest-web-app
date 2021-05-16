@@ -22,6 +22,21 @@ module.exports = [
   { method: "GET", path: "/del-indivInterest/{_id}", config: Castles.removepoi },
   {method: 'POST', path: '/add-category', config: Castles.addCategory},
   
+  //restricting access on routes with scope requirements
+  {
+    method: 'GET',
+    path: '/admin',
+    config: {
+      auth: {
+        strategy: 'session',
+        scope: 'admin'   //only allow users to access this route that have the admin scope in their authenticated credentials
+      },
+      handler: (request, h) => {
+        return h.view('admin')
+      }
+    }
+  },
+  
   {
     method: "GET",
     path: "/{param*}",

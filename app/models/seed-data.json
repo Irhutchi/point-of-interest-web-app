@@ -1,23 +1,37 @@
 {
+  "admin": {
+    "_model": "Admin",
+    "homer": {
+      "firstName": "Seymour",
+      "lastName": "Skinner",
+      "email": "seymour@skinner.com",
+      "password": "$2a$10$b0YRly.KGk.k/WsmVL7taerrg5dUou71EUrcuaMYIQLFSRhCLADUa",
+      "scope": [ "admin", "user" ]
+    }
+  },
+
   "users": {
     "_model": "User",
     "homer": {
       "firstName": "Homer",
       "lastName": "Simpson",
       "email": "homer@simpson.com",
-      "password": "$2a$10$b0YRly.KGk.k/WsmVL7taerrg5dUou71EUrcuaMYIQLFSRhCLADUa"
+      "password": "$2a$10$b0YRly.KGk.k/WsmVL7taerrg5dUou71EUrcuaMYIQLFSRhCLADUa",
+      "scope": [ "user" ]
     },
     "bart": {
       "firstName": "Bart",
       "lastName": "Simpson",
       "email": "bart@simpson.com",
-      "password": "$2a$10$VWpKPOyqQJtOO9izq6NF6eoGUocJC3/Kr9Di9GFXca1aljzPyQdnm"
+      "password": "$2a$10$VWpKPOyqQJtOO9izq6NF6eoGUocJC3/Kr9Di9GFXca1aljzPyQdnm",
+      "scope": [ "user" ]
     },
     "barney": {
       "firstName": "Barney",
       "lastName": "Grumble",
       "email": "barney@grumble.com",
-      "password": "$2a$10$mvz7oxaVpmdRW.uol5wal.IAE6fBsjMlwmmUqq0ARtM8my1kIxkdK"
+      "password": "$2a$10$mvz7oxaVpmdRW.uol5wal.IAE6fBsjMlwmmUqq0ARtM8my1kIxkdK",
+      "scope": [ "user" ]
     }
   },
   "categories": {
