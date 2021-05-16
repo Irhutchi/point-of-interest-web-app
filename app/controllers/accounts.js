@@ -1,9 +1,11 @@
 'use strict';
 
-
 const User = require('../models/user');
 const Boom = require("@hapi/boom"); //import boom module
 const Joi = require('@hapi/joi');  //import joi module
+const bcrypt = require("bcrypt");
+const saltRounds = 10;    // "cost factor" than controls the time taken to calculate the hash
+var sanitizeHtml = require('sanitize-html');
 
 const Accounts = {
   
@@ -18,27 +20,31 @@ const Accounts = {
       return h.view('about' , {title:"About Irish Castles"});
     },
   },
-  
+  // function to display the sign up page
   showSignup: {
     auth: false,
     handler: function(request, h) {
       return h.view('signup', { title: 'Sign-up' });
     }
   },
-  
+  /* function allows a new user to register
+     validation will ensure a user enters the required fields & the correct input   */
   signup: {
     auth: false,
     validate: {
       payload: {
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
+        // begin with upper case letter and then 2+ lower case letters
+        firstName: Joi.string().regex(/^[a-zA-Z][a-z]{2,}$/),
+        // begin with upper case letter, then any 2+ characters
+        lastName: Joi.string().regex(/^[a-zA-Z]/).min(3),
         email: Joi.string().email().required(),
-        password: Joi.string().required(),
+        password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
       },
       // report all errors by including options property
       options: {
         abortEarly: false,
       },
+      // if validation fails, render sign up page
       failAction: function (request, h, error) {
         return h
           .view("signup", {
@@ -49,29 +55,36 @@ const Accounts = {
           .code(400);
       },
     },
-    handler: async function(request, h) {
+    /* create a new user object & send the user information to database.
+       errors handled using try/catch block */
+    handler: async function (request, h) {
       try {
         const payload = request.payload;
         let user = await User.findByEmail(payload.email);
         if (user) {
           const message = "Email address is already registered";
           throw Boom.badData(message);
-        } //create a User Document
+        }
+        // write hash of PW to user model // Store hash in DB instead of password.
+        const hash = await bcrypt.hash(payload.password, saltRounds);
+      
         const newUser = new User({
-          firstName: payload.firstName,
-          lastName: payload.lastName,
-          email: payload.email,
-          password: payload.password
+          firstName: sanitizeHtml(payload.firstName),
+          lastName: sanitizeHtml(payload.lastName),
+          email: sanitizeHtml(payload.email),
+          password: sanitizeHtml(hash),
         });
-        user = await newUser.save(); //save the document
+        user = await newUser.save();
         request.cookieAuth.set({ id: user.id });
-        return h.redirect("/login");
+        
+        return h.redirect("/home");
       } catch (err) {
         return h.view("signup", { errors: [{ message: err.message }] });
       }
-    }
+    },
   },
   
+  // function to display the login page
   showLogin: {
     auth: false,
     handler: function(request, h) {
@@ -79,7 +92,8 @@ const Accounts = {
     }
   },
   
-  //only let user in if previously signed up
+  /* only let user in if previously signed up
+     provide validation to ensure email and password fields are entered */
   login: {
     auth: false,
     validate: {
@@ -90,6 +104,7 @@ const Accounts = {
       options: {
         abortEarly: false,
       },
+      // if validation fails, render login page
       failAction: function (request, h, error) {
         return h
           .view("login", {
@@ -100,7 +115,10 @@ const Accounts = {
           .code(400);
       },
     },
-    handler: async function(request, h) {
+    /* if the user doesn't exist return message to user
+       if user exists in DB compare password entered with user password
+     */
+    handler: async function (request, h) {
       const { email, password } = request.payload;
       try {
         let user = await User.findByEmail(email);
@@ -108,15 +126,15 @@ const Accounts = {
           const message = "Email address is not registered";
           throw Boom.unauthorized(message);
         }
-        user.comparePassword(password);
+        await user.comparePassword(password);
         request.cookieAuth.set({ id: user.id });
         return h.redirect("/home");
       } catch (err) {
         return h.view("login", { errors: [{ message: err.message }] });
       }
-    }
+    },
   },
-  
+  // function to show settings page
   showSettings: {
     handler: async function(request, h) {
       try {
@@ -129,13 +147,17 @@ const Accounts = {
     }
   },
   
+  
+  // update user settings and ensure correct pattern and is used.
   updateSettings: {
     validate: {
       payload: {
-        firstName: Joi.string().required(),
-        lastName: Joi.string().required(),
+        // begin with upper case letter and then 2+ lower case letters
+        firstName: Joi.string().regex(/^[a-zA-Z][a-z]{2,}$/),
+        // begin with upper case letter, then any 2+ characters
+        lastName: Joi.string().regex(/^[a-zA-Z]/).min(3),
         email: Joi.string().email().required(),
-        password: Joi.string().required(),
+        password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/)
       },
       options: {
         abortEarly: false,
@@ -150,7 +172,8 @@ const Accounts = {
           .code(400);
       },
     },
-    handler: async function(request, h) {
+    handler: async function (request, h) {
+      const hash = await bcrypt.hash(payload.password, saltRounds);
       try {
         const userEdit = request.payload;
         const id = request.auth.credentials.id;
@@ -164,9 +187,9 @@ const Accounts = {
       } catch (err) {
         return h.view("main", { errors: [{ message: err.message }] });
       }
-    }
+    },
   },
-  
+  // clear cookie authentication when user logs out.
   logout: {
     handler: function(request, h) {
       request.cookieAuth.clear();

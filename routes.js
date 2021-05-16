@@ -15,9 +15,13 @@ module.exports = [
   { method: "POST", path: "/settings", config: Accounts.updateSettings },
   
   { method: "GET", path: "/home", config: Castles.home },
-  { method: "POST", path: "/addLocation", config: Castles.addLocation },
   { method: "GET", path: "/report", config: Castles.report },
+  { method: "POST", path: "/addLocation", config: Castles.addLocation },
+  { method: 'GET', path: '/updatePOI/{id}', config: Castles.showPOISettings },
+  { method: "POST", path: "/updatePOI/{id}", config: Castles.updateCastlePoi },
   { method: "GET", path: "/del-indivInterest/{_id}", config: Castles.removepoi },
+  {method: 'POST', path: '/add-category', config: Castles.addCategory},
+  
   {
     method: "GET",
     path: "/{param*}",

@@ -16,10 +16,14 @@
     "@hapi/inert": "^6.0.3",
     "@hapi/joi": "^17.1.1",
     "@hapi/vision": "^6.0.1",
+    "bcrypt": "^5.0.1",
+    "cloudinary": "^1.25.1",
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.7",
+    "leaflet": "^1.7.1",
     "mais-mongoose-seeder": "^1.0.7",
-    "mongoose": "^5.11.19"
+    "mongoose": "^5.11.19",
+    "sanitize-html": "^2.3.3"
   },
   "devDependencies": {
     "prettier": "^2.2.1"

@@ -14,10 +14,25 @@
      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
      crossorigin="anonymous"
    />
+   <!-- leaflet -->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
    <!-- Open Sans Font -->
    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,300" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<script>
+   // Request the user's current location. If the user allows it, you will get back a position object.
+   if('geolocation' in navigator) {
+     console.log("Geo Available");
+      navigator.geolocation.getCurrentPosition(position => {
+         console.log(position);
+         // Show a map centered at latitude / longitude.
+      });
+   } else {
+     console.log("Geo NOT Available");
+   }
+</script>
 <!-- Dummy Script for Firefox -->
    <script>0</script>
    {{{content}}}
