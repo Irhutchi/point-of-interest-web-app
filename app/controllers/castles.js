@@ -3,6 +3,7 @@
 const IndivInterests = require("../models/indivInterests");
 const Category = require("../models/category");
 const User = require("../models/user");
+const Review = require("../models/review");
 const Joi = require('@hapi/joi');
 const sanitizeHtml = require('sanitize-html');
 
@@ -10,9 +11,13 @@ const Castles = {
   home: {
     handler: async function (request, h) {
       const categories = await Category.find().lean();
+      const id = request.auth.credentials.id;
+      const user = await User.findById(id); // locate User Object
       return h.view("home", {
         title: "Add new POI",
-        categories: categories  // POI handler needs categories lift for view
+        categories: categories, // POI handler needs categories lift for view
+        firstName: user.firstName,
+        lastName: user.lastName
       });
     },
   },
@@ -97,7 +102,7 @@ const Castles = {
       }
     }
   },
-  // function to provide user to update indixes
+  // function to provide user to update indexes
   updateCastlePoi: {
     validate: {
       payload: {
@@ -158,7 +163,27 @@ const Castles = {
     },
   },
   
+  
+  //----   Reviews   ----//
+  showReview: {
+    handler: async function(request, h) {
+      try {
+        const indivInterestsId = request.params.id;
+        const poi = await IndivInterests.findById(indivInterestsId).lean();
+        const reviews = await Review.find().lean(); //.populate("member").populate("IndivInterests").populate("review")
+      
+        return h.view('reviewPOI', {
+          reviews: reviews,
+          
+        });
+      } catch (err) {
+        return h.view("report", {
+          errors: [{ message: err.message }]
+        });
+      }
+    }
+  },
+  
 };
 
 module.exports = Castles;
-

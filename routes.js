@@ -20,7 +20,7 @@ module.exports = [
   { method: 'GET', path: '/updatePOI/{id}', config: Castles.showPOISettings },
   { method: "POST", path: "/updatePOI/{id}", config: Castles.updateCastlePoi },
   { method: "GET", path: "/del-indivInterest/{_id}", config: Castles.removepoi },
-  {method: 'POST', path: '/add-category', config: Castles.addCategory},
+  { method: "GET", path: "/reviewPOI/{id}", config: Castles.showReview },
   
   //restricting access on routes with scope requirements
   {
