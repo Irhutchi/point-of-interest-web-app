@@ -9,8 +9,8 @@
          <th>Description</th>
          <th>latitude</th>
          <th>Longitude</th>
-         <!--<th>Location</th> -->
          <th>Name</th>
+         <th>Review</th>
          <th>Edit</th>
          <th>Delete</th>
       </thead>
@@ -22,8 +22,8 @@
                <td>{{description}}</td>
                <td>{{latitude}}</td>
                <td>{{longitude}}</td>
-               <!--<td>{location}}</td> -->
                <td>{{ member.firstName }} {{ member.lastName }}</td>
+               <td> <a href="/reviewPOI/{{_id}}"> <i class="far fa-file-word"></i></a></td>
               <td> <a href="/updatePOI/{{_id}}"> <i class="far fa-edit"></i> </a></td> -->
                <td><a href="/del-indivInterest/{{_id}}" title="Delete" class="fas fa-trash fa-1x" style="color:rgb(255,3,3)"></a></td>
             </tr>
@@ -36,7 +36,7 @@
    <div>
       <div class="uk-position-center">
          <style>
-            #map { height:480px; }
+            #map { height:510px; }
          </style>
       </div>
       <div id = "map"></div>

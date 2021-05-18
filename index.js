@@ -7,6 +7,8 @@ const Hapi = require('@hapi/hapi');
 const Inert = require('@hapi/inert');
 const Vision = require('@hapi/vision');
 const Cookie = require("@hapi/cookie");
+const utils = require("./app/api/utils.js");
+
 const Handlebars = require('handlebars');
 require('./app/models/db');
 
@@ -17,6 +19,7 @@ if (result.error) {
   process.exit(1);
 }
 
+//console.log(process.env)
 
 /* Server is the container for the hapi application.
    All other Hapi objects are created or used in the context of a server.
@@ -27,18 +30,12 @@ const server = Hapi.server({
   //host: 'localhost',
 });
 
-//before server launches 'bind' an array of users/donations to the server obj
-//seperate out user location interests
-//server.bind({
-  //currentUser: {}, //{} hold key-value pairs
-  //user: {},
-  //pointsofinterests: [], //[] stores and array of values, ie. POI's added.
-//});
 
 async function init() {
   await server.register(Inert);
   await server.register(Vision);
   await server.register(Cookie);
+  await server.register(require('hapi-auth-jwt2'));
   server.validator(require("@hapi/joi"));
   server.views({
     engines: {
@@ -63,9 +60,16 @@ async function init() {
     redirectTo: "/", //a better user experience would be to redirect the user to the start page
   });
   
+  server.auth.strategy("jwt", "jwt", {
+    key: "secretpasswordnotrevealedtoanyone",
+    validate: utils.validate,
+    verifyOptions: { algorithms: ["HS256"] },
+  });
+  
   server.auth.default("session");
   server.route(require('./routes'));
   server.route(require('./routes-api'));
+  
   await server.start();
   console.log(`Server running at: ${server.info.uri}`);
 }

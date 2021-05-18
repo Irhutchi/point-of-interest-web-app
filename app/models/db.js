@@ -33,6 +33,7 @@ async function seed() {
   const Category = require("./category.js");
   const User = require("./user");
   const Admin = require("./admin");
+  const Review = require("./review");
   const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
   console.log(dbData);
 }

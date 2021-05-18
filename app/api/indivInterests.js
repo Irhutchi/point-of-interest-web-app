@@ -32,7 +32,7 @@ const IndivPOIs = {
     },
   },
   
-  
+  //retrieve poi by category
   findByCategory: {
     auth: false,
     handler: async function (request, h) {
