@@ -10,9 +10,13 @@ const Castles = {
   home: {
     handler: async function (request, h) {
       const categories = await Category.find().lean();
+      const id = request.auth.credentials.id;
+      const user = await User.findById(id); // locate User Object
       return h.view("home", {
         title: "Add new POI",
-        categories: categories  // POI handler needs categories lift for view
+        categories: categories, // POI handler needs categories lift for view
+        firstName: user.firstName,
+        lastName: user.lastName
       });
     },
   },
