@@ -12,6 +12,20 @@ suite("Category API tests", function () {
     
     const poiService = new TestAPIService(fixtures.testapiservice);
     
+    let newUser = fixtures.newUser;
+    //delete all users, then create a new user and then authenticate this user to the service
+    suiteSetup(async function () {
+      await poiService.deleteAllUsers();
+      const returnedUser = await poiService.createUser(newUser);
+      const response = await poiService.authenticate(newUser);
+    });
+    
+    //delete all users, then remove the authorisation token.
+    suiteTeardown(async function () {
+      await poiService.deleteAllUsers();
+      poiService.clearAuth();
+    });
+    
     //clear our the categories model so that each test can be considered completely independently
     setup(async function () {
       await poiService.deleteAllCategories();
