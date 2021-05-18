@@ -1,0 +1,80 @@
+{
+  "testapiservice": "http://localhost:3000",
+
+  "users": [
+    {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "$2a$10$b0YRly.KGk.k/WsmVL7taerrg5dUou71EUrcuaMYIQLFSRhCLADUa"
+    },
+    {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "$2a$10$VWpKPOyqQJtOO9izq6NF6eoGUocJC3/Kr9Di9GFXca1aljzPyQdnm"
+    },
+    {
+      "firstName": "Barney",
+      "lastName": "Grumble",
+      "email": "barney@grumble.com",
+      "password": "$2a$10$mvz7oxaVpmdRW.uol5wal.IAE6fBsjMlwmmUqq0ARtM8my1kIxkdK"
+    }
+  ],
+  "newUser": {
+    "firstName": "Ned",
+    "lastName": "Flanders",
+    "email": "ned@flanders.com",
+    "password": "$2a$10$mvz7oxaVpmdRW.uol5wal.IAE6fBsjMlwmmUqq0ARtM8my1kIxkdK"
+  },
+
+  "categories": [
+    {
+      "region": "North"
+    },
+    {
+      "region": "East"
+    },
+    {
+      "region": "South"
+    },
+    {
+      "region": "West"
+    }
+  ],
+  "newCategory":
+  {
+    "region": "Midlands"
+  },
+
+  "indivInterests": [
+    {
+      "poi": "Antrim Castle",
+      "description": "Dates back to 1613. Aka Massereene Castle",
+      "latitude": 54.715503,
+      "longitude": -6.22002
+    },
+    {
+      "poi": "Dublin Castle",
+      "description": "Major Irish complex and tourist attraction",
+      "latitude": 53.34300,
+      "longitude": -6.26743
+    },
+    {
+      "poi": "Waterford Castle",
+      "description": "Castle in Co.Waterford",
+      "latitude": 52.25348,
+      "longitude": -7.05939
+    }
+  ],
+  "newInterest":
+  {
+    "poi": "Bunratty Castle",
+    "description": "15th century castle in Co.Clare",
+    "latitude": 52.7001,
+    "longitude": -8.8120
+  }
+}
+
+
+

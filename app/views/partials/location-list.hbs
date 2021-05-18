@@ -65,7 +65,7 @@
             Toner_Tile.addTo(map);
             {{#each castles}}
                locationMarker = L.marker ([{{latitude}}, {{longitude}}], {
-                  icon: markerIcon
+                  //icon: markerIcon
                }).bindPopup(MarkerPopup).addTo(map);
             {{/each}}
          }

@@ -20,12 +20,17 @@
     "cloudinary": "^1.25.1",
     "dotenv": "^8.2.0",
     "handlebars": "^4.7.7",
+    "hapi-auth-jwt2": "^10.2.0",
+    "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
     "mais-mongoose-seeder": "^1.0.7",
     "mongoose": "^5.11.19",
     "sanitize-html": "^2.3.3"
   },
   "devDependencies": {
+    "axios": "^0.21.1",
+    "chai": "^4.3.4",
+    "mocha": "^8.4.0",
     "prettier": "^2.2.1"
   },
   "prettier": {
