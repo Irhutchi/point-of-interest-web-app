@@ -75,6 +75,15 @@
       "member": "->users.barney",
       "category": "->categories.south"
     }
+  },
+
+  "review": {
+    "_model":"Review",
+    "one": {
+      "review": "Hate it!",
+      "member": "->users.barney",
+      "IndivInterests": "->indivInterests.one"
+    }
   }
 }
 

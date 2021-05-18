@@ -1,0 +1,36 @@
+<div class="uk-margin uk-width-3xlarge uk-margin-auto uk-card uk-card-default uk-card-body">
+
+   <table class="uk-table uk-table-justify uk-table-divider">
+      <caption>
+         List of reviews
+      </caption>
+      <thead>
+      <th>POI</th>
+      <th>Name</th>
+      <th>Review</th>
+      </thead>
+      <tbody class="uk-text-left">
+      {{#each reviews}}
+         <tr>
+            <td>{{IndivInterests}}</td>
+            <td>{{member}}</td>
+            <td>{{review}}</td>
+         </tr>
+      {{/each}}
+      </tbody>
+   </table>
+</div>
+
+
+<form class="uk-form-stacked uk-text-left uk-margin-uk-card uk-card-default uk-card-body" action="/add-review" method="POST">
+   <fieldset class="uk-fieldset">
+
+      <div class="uk-margin">
+         <label class="uk-form-label">Submit Review</label>
+         <input class="uk-input" type="text" placeholder="leave review here" name="review">
+      </div>
+   </fieldset>
+   <div class="uk-margin uk-width-1-2@m">
+      <button class="uk-button uk-button-primary uk-button-medium  uk-border-rounded uk-width-1-3">save</button>
+   </div>
+</form>

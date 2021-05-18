@@ -6,12 +6,12 @@
 */
 
 const axios = require("axios");
-const baseUrl = "http://DESKTOP-T58FBJJ:3000";
 
 class TestAPIService {
   constructor(baseUrl) {
     this.baseUrl = baseUrl;
   }
+  
   
   async getCategories() {
     const response = await axios.get(this.baseUrl + "/api/categories");
@@ -46,6 +46,20 @@ class TestAPIService {
   async deleteOneCategory(id) {
     const response = await axios.delete(this.baseUrl + "/api/categories/" + id);
     return response.data;
+  }
+  
+  async authenticate(user) {
+    try {
+      const response = await axios.post(this.baseUrl + "/api/users/authenticate", user);
+      //provide the user with JWT token just received upon access from Authorisation header
+      axios.defaults.headers.common["Authorization"] = "Bearer " + response.data.token;
+      return response.data;
+    } catch (e) {
+      return null;
+    }
+  }
+  async clearAuth(user) {
+    axios.defaults.headers.common["Authorization"] = "";
   }
   
   async getUsers() {

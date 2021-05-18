@@ -42,11 +42,11 @@ suite("User API tests", function () {
     assert.equal(allInterests.length, indivInterests.length);
   });
   
+  
   test("Get POI Detail", async function () {
     for (let i of indivInterests) {
       await poiService.createIndivInterest(i);
     }
-    
     const allInterests = await poiService.getAllInterests();
     for (var i = 0; i < indivInterests.length; i++) {
       assert(_.some([allInterests[i]], indivInterests[i]), "returnedInterest must be a superset of newInterest");
