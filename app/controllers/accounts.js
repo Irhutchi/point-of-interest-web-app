@@ -3,7 +3,7 @@
 const User = require('../models/user');
 const Boom = require("@hapi/boom"); //import boom module
 const Joi = require('@hapi/joi');  //import joi module
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const saltRounds = 10;    // "cost factor" than controls the time taken to calculate the hash
 const sanitizeHtml = require('../utils/sanitisingHTML');
 

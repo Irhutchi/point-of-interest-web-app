@@ -11,15 +11,27 @@ suite("User API tests", function () {
   
   const poiService = new TestAPIService(fixtures.testapiservice);
   
-
-  //clear our the categories model so that each test can be considered completely independently
   setup(async function () {
+    //await poiService.deleteAllUsers();
+    const returnedUser = await poiService.createUser(newUser);
+    const response = await poiService.authenticate(newUser);
+  });
+  
+  teardown(async function () {
+    await poiService.deleteAllUsers();
+    poiService.clearAuth();
+  });
+  
+  
+  
+  //clear our the categories model so that each test can be considered completely independently
+  /*setup(async function () {
     await poiService.deleteAllUsers();
   });
   
   teardown(async function () {
     await poiService.deleteAllUsers();
-  });
+  });*/
   
   
  
@@ -56,22 +68,25 @@ suite("User API tests", function () {
     }
     
     const allUsers = await poiService.getUsers();
-    assert.equal(allUsers.length, users.length);
+    assert.equal(allUsers.length, users.length + 1 );
   });
   
   test("Get Users Detail", async function () {
+    let arrOfUser  = [newUser];
+    
     for (let i of users) {
-      await poiService.createUser(i);
+      const newUser = await poiService.createUser(i);
+      arrOfUser.push(newUser);
     }
     
-    const allUsers = await poiService.getUsers();
-    for (var i = 0; i < users.length; i++) {
-      assert(_.some([allUsers[i]], users[i]), "returnedUser must be a superset of newUser");
+    const allUsers = await poiService.getUsers(); // get all users from the
+    for (let i = 0; i < arrOfUser.length; i++) {
+      assert(_.some([allUsers[i]], arrOfUser[i]), "returnedUser must be a superset of newUser");
     }
   });
   
   test("Get All Users Empty", async function () {
     const allUsers = await poiService.getUsers();
-    assert.equal(allUsers.length, 0);
+    assert.equal(allUsers.length, 1); //before every test we are authenticateing a user to access the api
   });
 });
