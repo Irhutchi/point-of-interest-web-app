@@ -7,7 +7,6 @@ const Schema = Mongoose.Schema;
 const indivInterestsSchema = new Schema({
   poi: String,
   description: String,
-  //location: String,
   latitude: Number,
   longitude: Number,
   member: {

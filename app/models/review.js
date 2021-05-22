@@ -6,6 +6,7 @@ const Schema = Mongoose.Schema;
 // review is associated with poi
 const reviewsSchema = new Schema({
   review: String,
+  rating: Number,
   member: {
     type: Schema.Types.ObjectId,
     ref: "User",

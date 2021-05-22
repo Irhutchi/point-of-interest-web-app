@@ -11,9 +11,9 @@ exports.createToken = function (user) {
 };
 
 exports.decodeToken = function (token) {
-  var userInfo = {};
+  let userInfo = {};
   try {
-    var decoded = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
+    let decoded = jwt.verify(token, 'secretpasswordnotrevealedtoanyone');
     userInfo.userId = decoded.id;
     userInfo.email = decoded.email;
   } catch (e) {

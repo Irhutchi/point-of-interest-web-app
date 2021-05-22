@@ -26,5 +26,4 @@ module.exports = [
   { method: "DELETE", path: "/api/users/{id}", config: Users.deleteOne },
   { method: "DELETE", path: "/api/users", config: Users.deleteAll },
   
-  
 ];

@@ -5,7 +5,7 @@ const Category = require("../models/category");
 const User = require("../models/user");
 const Review = require("../models/review");
 const Joi = require('@hapi/joi');
-const sanitizeHtml = require('sanitize-html');
+const sanitizeHtml = require('../utils/sanitisingHTML');
 
 const Castles = {
   home: {
@@ -26,6 +26,10 @@ const Castles = {
   report: {
     handler: async function (request, h) {
       const castles = await IndivInterests.find().populate("member").populate("category").lean();
+      let total = 0;
+      castles.forEach((pois) => {
+        total += pois.length;
+      });
       return h.view("report", {
         title: "Locations added to Date",
         castles: castles,
@@ -64,6 +68,8 @@ const Castles = {
     }
   },
   
+
+  
   addCategory: {
     handler: async function (request, h)
     {
@@ -84,16 +90,21 @@ const Castles = {
       }
     }
   },
+  
+ 
+  
+  
   // function to display (update) point of interest
   showPOISettings: {
     handler: async function(request, h) {
       try {
        const indivInterestsId = request.params.id;
        const poi = await IndivInterests.findById(indivInterestsId).lean();
-       
+       const category = await Category.find().lean();
        return h.view('updatePOI', {
          title: 'Edit Point of Interest',
-         poi:poi
+         poi:poi,
+         categories: category
        });
       } catch (err) {
         return h.view("updatePOI", {
@@ -106,10 +117,11 @@ const Castles = {
   updateCastlePoi: {
     validate: {
       payload: {
+        category: Joi.string().required(),
         poi: Joi.string().required(),
         description: Joi.string().required(),
-        location: Joi.string().required(),
-        category: Joi.string().required(),
+        latitude: Joi.number(),
+        longitude: Joi.number(),
       },
       options: {
         abortEarly: false
@@ -134,8 +146,9 @@ const Castles = {
   
         indivInterests.poi = editPoi.poi;
         indivInterests.description = editPoi.description;
-        indivInterests.location = editPoi.location;
         indivInterests.category = editPoi.category;
+        indivInterests.latitude = editPoi.latitude;
+        indivInterests.longitude = editPoi.longitude;
         
         await indivInterests.save();
         return h.redirect("/report");
@@ -170,11 +183,12 @@ const Castles = {
       try {
         const indivInterestsId = request.params.id;
         const poi = await IndivInterests.findById(indivInterestsId).lean();
-        const reviews = await Review.find().lean(); //.populate("member").populate("IndivInterests").populate("review")
-      
+        const reviews = await Review.find({ IndivInterests: request.params.id
+        }).populate("member").populate("IndivInterests").lean();
+        
         return h.view('reviewPOI', {
           reviews: reviews,
-          
+          poi: poi
         });
       } catch (err) {
         return h.view("report", {
@@ -183,6 +197,36 @@ const Castles = {
       }
     }
   },
+  
+  addReview: {
+    handler: async function (request, h) {
+      try {
+        const id = request.auth.credentials.id;
+        const user = await User.findById(id); // locate User Object
+        //const indivInterests = request.params.id;
+        const indivInterests = await IndivInterests.findById(request.params.id);
+        //const poi = await IndivInterests.findById(indivInterestsId).lean();
+        const data = request.payload;
+        // Create new point of interest & init with User and category Id's
+        const newReview = new Review ({
+          review: sanitizeHtml(data.review),
+          rating: sanitizeHtml(data.rating),
+          member: user._id,
+          IndivInterests: indivInterests._id //sanitizeHtml(data.Indivinterests),
+        });
+        const review = await newReview.save();  // save new individual interest
+        if (review) {
+          console.log("Review added")
+        } else {
+          console.log("Error adding review")
+        }
+        return h.redirect("/reviewPOI/" + request.params.id);
+      } catch (err) {
+        return h.view("report", { errors: [{ message: err.message }] });
+      }
+    }
+  },
+ 
   
 };
 

@@ -8,6 +8,19 @@ module.exports = [
   { method: "GET", path: "/about", config: Accounts.about },
   { method: "GET", path: "/signup", config: Accounts.showSignup },
   { method: "GET", path: "/login", config: Accounts.showLogin },
+  //Using OAuth strategy to give app access to GitHub profile.
+  /*{ method: 'GET', path: '/login',
+    config: {
+      auth: 'github-oauth',
+      handler: function (request, h) {
+        if (request.auth.isAuthenticated) {
+          request.cookieAuth.set(request.auth.credentials);
+          return h.view('home');
+        }
+        return('Not logged in...');
+      }
+    }
+  },*/
   { method: "GET", path: "/logout", config: Accounts.logout },
   { method: "GET", path: "/settings", config: Accounts.showSettings },
   { method: "POST", path: "/signup", config: Accounts.signup },
@@ -17,10 +30,12 @@ module.exports = [
   { method: "GET", path: "/home", config: Castles.home },
   { method: "GET", path: "/report", config: Castles.report },
   { method: "POST", path: "/addLocation", config: Castles.addLocation },
+  { method: "POST", path: "/add-category", config: Castles.addCategory },
   { method: 'GET', path: '/updatePOI/{id}', config: Castles.showPOISettings },
   { method: "POST", path: "/updatePOI/{id}", config: Castles.updateCastlePoi },
   { method: "GET", path: "/del-indivInterest/{_id}", config: Castles.removepoi },
   { method: "GET", path: "/reviewPOI/{id}", config: Castles.showReview },
+  { method: "POST", path: "/add-review/{id}", config: Castles.addReview },
   
   //restricting access on routes with scope requirements
   {
