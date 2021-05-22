@@ -11,6 +11,7 @@ suite("User API tests", function () {
   
   const poiService = new TestAPIService(fixtures.testapiservice);
   
+
   //clear our the categories model so that each test can be considered completely independently
   setup(async function () {
     await poiService.deleteAllUsers();
@@ -20,6 +21,8 @@ suite("User API tests", function () {
     await poiService.deleteAllUsers();
   });
   
+  
+ 
   test("Create a User", async function () {
     const returnedUser = await poiService.createUser(newUser);
     assert(_.some([returnedUser], newUser), "returnedUser must be a superset of newUser");

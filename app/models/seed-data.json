@@ -61,7 +61,7 @@
     },
     "two": {
       "poi": "Dublin Castle",
-      "description": "Major Irish complex and tourist attraction",
+      "description": "Major Irish complex, museum and Gothic chapel",
       "latitude": "53.34300",
       "longitude": "-6.26743",
       "member": "->users.bart",
@@ -80,9 +80,29 @@
   "review": {
     "_model":"Review",
     "one": {
+      "review": "Really enjoyed the experience",
+      "member": "->users.homer",
+      "IndivInterests": "->indivInterests.one",
+      "rating": 4
+    },
+    "_model":"Review",
+    "two": {
       "review": "Hate it!",
       "member": "->users.barney",
-      "IndivInterests": "->indivInterests.one"
+      "IndivInterests": "->indivInterests.one",
+      "rating": 1
+    },
+    "three": {
+      "review": "Fantastic, highly recommend it to anyone!",
+      "member": "->users.bart",
+      "IndivInterests": "->indivInterests.two",
+      "rating": 5
+    },
+    "four": {
+      "review": "Recommend it to all the family!",
+      "member": "->users.bart",
+      "IndivInterests": "->indivInterests.three",
+      "rating": 4
     }
   }
 }

@@ -8,8 +8,22 @@ const _ = require("lodash");
 suite("User API tests", function () {
   let indivInterests = fixtures.indivInterests;
   let newInterest = fixtures.newInterest;
+  let newUser = fixtures.newUser;
   
   const poiService = new TestAPIService(fixtures.testapiservice);
+  
+  //delete all users, then create a new user and then authenticate this user to the service
+  suiteSetup(async function () {
+    await poiService.deleteAllUsers();
+    const returnedUser = await poiService.createUser(newUser);
+    const response = await poiService.authenticate(newUser);
+  });
+  
+  //delete all users, then remove the authorisation token.
+  suiteTeardown(async function () {
+    await poiService.deleteAllUsers();
+    poiService.clearAuth();
+  });
   
   //clear our the indivInterests model so that each test can be considered completely independently
   setup(async function () {

@@ -5,7 +5,7 @@ const Boom = require("@hapi/boom"); //import boom module
 const Joi = require('@hapi/joi');  //import joi module
 const bcrypt = require("bcrypt");
 const saltRounds = 10;    // "cost factor" than controls the time taken to calculate the hash
-var sanitizeHtml = require('sanitize-html');
+const sanitizeHtml = require('../utils/sanitisingHTML');
 
 const Accounts = {
   
@@ -67,7 +67,7 @@ const Accounts = {
         }
         // write hash of PW to user model // Store hash in DB instead of password.
         const hash = await bcrypt.hash(payload.password, saltRounds);
-      
+        
         const newUser = new User({
           firstName: sanitizeHtml(payload.firstName),
           lastName: sanitizeHtml(payload.lastName),
@@ -75,6 +75,7 @@ const Accounts = {
           password: sanitizeHtml(hash),
         });
         user = await newUser.save();
+        // set the cookie if correct user credentials are presented
         request.cookieAuth.set({ id: user.id });
         
         return h.redirect("/home");
@@ -178,10 +179,10 @@ const Accounts = {
         const userEdit = request.payload;
         const id = request.auth.credentials.id;
         const user = await User.findById(id);
-        user.firstName = userEdit.firstName;
-        user.lastName = userEdit.lastName;
-        user.email = userEdit.email;
-        user.password = userEdit.password;
+        user.firstName = sanitizeHtml(userEdit.firstName);
+        user.lastName = sanitizeHtml(userEdit.lastName);
+        user.email = sanitizeHtml(userEdit.email);
+        user.password = sanitizeHtml(userEdit.hash);
         await user.save();
         return h.redirect("/settings");
       } catch (err) {
@@ -192,7 +193,7 @@ const Accounts = {
   // clear cookie authentication when user logs out.
   logout: {
     handler: function(request, h) {
-      request.cookieAuth.clear();
+      request.cookieAuth.clear();  // cookie deleted.
       return h.redirect('/');
     }
   }
